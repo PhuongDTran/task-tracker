@@ -8,19 +8,66 @@ const configuration = {
 
 AWS.config.update(configuration)
 
-const docClient = new AWS.DynamoDB.DocumentClient()
+const docClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
+const USER_TASKS_TABLE_NAME = 'team57-user-tasks';
 
-export const putData = (tableName , data) => {
-  var params = {
-      TableName: tableName,
-      Item: data
+export const addUserTask = (task, callback) => {
+  const params = {
+    TableName: USER_TASKS_TABLE_NAME,
+    Item: task
   }
 
   docClient.put(params, function (err, data) {
-      if (err) {
-          console.log('Error', err)
-      } else {
-          console.log('Success', data)
-      }
+    callback(err, data);
   })
+}
+
+export const updateUserTask = (task, callback) => {
+  const { username, taskId, title, description, status, dueDate } = task;
+
+  const params = {
+    TableName: USER_TASKS_TABLE_NAME,
+    Key: {
+      username: username,
+      taskId: taskId
+    },
+    UpdateExpression: 'set title = :title, description = :description, task_status = :status, due_date = :date',
+    ExpressionAttributeValues: {
+      ":title": title,
+      ":description": description,
+      ":status": status,
+      ":date": dueDate
+    }
+  }
+
+  docClient.update(params, function(err, data) {
+    callback(err, data);
+  })
+}
+
+export const deleteUserTask = (username, taskId, callback) => {
+  const params = {
+    TableName: USER_TASKS_TABLE_NAME,
+    Key: {
+      username: username,
+      taskId: taskId
+    }
+  }
+
+  docClient.delete(params, function(err, data) {
+    callback(err, data);
+  })
+}
+
+export const getAllUserTasks = (username, callback) => {
+  const params = {
+    TableName: USER_TASKS_TABLE_NAME,
+    KeyConditionExpression: "username = :username",
+    ExpressionAttributeValues: {
+      ':username': username,
+    }
+  }
+  return docClient.query(params, function (err, data) {
+    callback(err, data);
+  });
 }
