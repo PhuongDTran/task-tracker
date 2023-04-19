@@ -17,20 +17,20 @@ function DashboardPage() {
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            title
+            Title:
             {task.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            description
-            {task.description}
+            Description:
+            {task.description ? task.description : "No description"}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            status
-            {task.status}
+            Status:
+            {task.status ? task.status : "No status"}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            duedate
-            {task.due_date}
+            Duedate:
+            {task.due_date ? task.due_date : "No due date"}
           </Typography>
         </CardContent>
       </CardActionArea>
