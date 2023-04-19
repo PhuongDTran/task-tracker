@@ -16,15 +16,6 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      let listOfTasks;
-      getAllUserTasks(username, function (err, data) {
-        if (data !== null) {
-          listOfTasks = data.Items;
-        }
-        else {
-          listOfTasks = [];
-        }
-      });
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
