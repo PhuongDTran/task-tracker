@@ -18,8 +18,8 @@ function LoginPage() {
       const exists = await checkUserExists(username);
       if (exists) {
         setIsAuthenticated(true);
+        localStorage.setItem("user", username);
         navigate("/dashboard");
-
       } else {
         // alert
         alert("Invalid username. Please try again.");
