@@ -16,6 +16,7 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
+      localStorage.setItem("user", username);
       navigate("/dashboard");
     } catch (error) {
       console.error(error);

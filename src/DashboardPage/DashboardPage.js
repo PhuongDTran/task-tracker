@@ -40,10 +40,11 @@ function DashboardPage() {
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>This is a placeholder for the dashboard page.</p>
-      <div className="card-container">
-      {taskElements}
-      </div>
+      {tasks.length === 0 ? (
+        <p>You have not set up any tasks yet.</p>
+      ) : (
+        <div className="card-container">{taskElements}</div>
+      )}
     </div>
   );
 };
