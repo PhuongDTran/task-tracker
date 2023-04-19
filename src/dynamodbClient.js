@@ -73,23 +73,18 @@ export const getAllUserTasks = (username, callback) => {
 }
 
 // Function to check if a user exists in DynamoDB
-export const checkUserExists = async (tableName, username) => {
+export const checkUserExists = async (username) => {
   const params = {
-    TableName: tableName,
-    Key: {
-      username: username
-    }
+    TableName: USER_TASKS_TABLE_NAME,
+    KeyConditionExpression: "username = :username",
+    ExpressionAttributeValues: {
+      ':username': username,
+    },
   };
-
-  try {
-    const data = await docClient.get(params).promise();
-    if (data && data.Item) {
-      return true; // User exists
-    } else {
-      return false; // User does not exist
-    }
-  } catch (error) {
-    console.error('Error checking if user exists:', error);
+  const result = await docClient.query(params).promise();
+  if (result.Count === 0) {
     return false;
+  } else {
+    return true;
   }
 };
