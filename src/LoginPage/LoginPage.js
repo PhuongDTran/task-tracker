@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { checkUserExists } from "../dynamodbClient";
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
@@ -31,12 +31,16 @@ function LoginPage() {
 
   return (
     <div>
-      <h1>Login</h1>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={handleUsernameChange} />
-      </label>
-      <button onClick={handleLogin}>Login</button>
+      <div id="loginForm">
+      <h1>Login to Task Tracker</h1>
+        <div className="centerFeild">
+            <label className="LoginLabel">
+              Username:
+            </label>
+            <input type="text" id="inputField" value={username} onChange={handleUsernameChange} />
+            <button onClick={handleLogin}>Login</button>
+        </div>
+      </div>
     </div>
   );
 }

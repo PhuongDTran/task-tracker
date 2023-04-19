@@ -1,10 +1,16 @@
 import React from 'react';
+import './DashboardPage.css';
 
 function DashboardPage() {
   return (
     <div>
-      <h1>Dashboard</h1>
-      <p>This is a placeholder for the dashboard page.</p>
+      <body>
+        <div class="topnav">
+          <a class="active" href="#index">Task Tracker</a>
+          <a class="inactive" href="/">Sign Out</a>
+          <a class="inactive" href="#userName">User Name</a>
+        </div>
+      </body>
     </div>
   );
 };

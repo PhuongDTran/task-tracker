@@ -28,3 +28,12 @@ dist-ssr
 
 # misc
 build/
+package-lock.json
+package.json
+*.json
+src/DashboardPage/DashboardPage.js
+src/DashboardPage/DashboardPage.css
+src/DashboardPage/DashboardPage.js
+package.json
+package-lock.json
+src/DashboardPage/DashboardPage.js
