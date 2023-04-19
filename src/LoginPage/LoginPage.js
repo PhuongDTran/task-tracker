@@ -2,6 +2,7 @@ import { useState } from "react";
 import { checkUserExists } from "../dynamodbClient";
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
+import { getAllUserTasks } from "../dynamodbClient";
 
 function LoginPage() {
 
@@ -15,15 +16,16 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const exists = await checkUserExists(username);
-      if (exists) {
-        setIsAuthenticated(true);
-        navigate("/dashboard");
-
-      } else {
-        // alert
-        alert("Invalid username. Please try again.");
-      }
+      let listOfTasks;
+      getAllUserTasks(username, function (err, data) {
+        if (data !== null) {
+          listOfTasks = data.Items;
+        }
+        else {
+          listOfTasks = [];
+        }
+      });
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
     }
