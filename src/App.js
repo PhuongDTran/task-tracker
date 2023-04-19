@@ -66,14 +66,13 @@ function App() {
   return (
     <>
       <div className="App">
-        <LoginPage />
-      </div>
       <Router>
         <Routes>
-          <Route exact path="/" component={LoginPage} />
-          {/* <Route path="/dashboard" component={DashboardPage} /> */}
+          <Route exact path="/" element={<LoginPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
       </Router>
+      </div>
     </>
   );
 }

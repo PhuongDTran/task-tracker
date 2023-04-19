@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { checkUserExists } from "../dynamodbClient";
+import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
 
 function LoginPage() {
+
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -15,6 +18,8 @@ function LoginPage() {
       const exists = await checkUserExists(username);
       if (exists) {
         setIsAuthenticated(true);
+        navigate("/dashboard");
+
       } else {
         // alert
         alert("Invalid username. Please try again.");
