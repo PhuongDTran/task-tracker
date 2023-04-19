@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getAllUserTasks } from '../dynamodbClient';
+import './DashboardPage.css';
+import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
 function DashboardPage() {
 
   const [username, setUsername] = useState(localStorage.getItem("user") || "");
@@ -11,18 +13,37 @@ function DashboardPage() {
   }, [])
 
   const taskElements = tasks.map(task => {
-    return <div>
-      <h2>Title: {task.title}</h2>
-      <p>Description: {task.description}</p>
-      <p>Status: {task.task_status}</p>
-      <p>Due date: {task.due_date}</p>
-    </div>
+    return <Card sx={{ maxWidth: 345 }}>
+      <CardActionArea>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            title
+            {task.title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            description
+            {task.description}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            status
+            {task.status}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            duedate
+            {task.due_date}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   })
+
   return (
     <div>
       <h1>Dashboard</h1>
       <p>This is a placeholder for the dashboard page.</p>
+      <div className="card-container">
       {taskElements}
+      </div>
     </div>
   );
 };
