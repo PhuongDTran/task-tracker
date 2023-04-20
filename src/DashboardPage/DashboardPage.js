@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getAllUserTasks } from "../dynamodbClient";
+import { getAllUserTasks, addUserTask } from "../dynamodbClient";
+import { v4 as uuidv4 } from "uuid";
 import "./DashboardPage.css";
 import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -72,7 +73,7 @@ function DashboardPage() {
 
   const allStatus = [
     {
-      value: "Not Starte",
+      value: "Not Started",
       label: "Not Started",
     },
     {
@@ -85,8 +86,21 @@ function DashboardPage() {
     },
   ];
 
-  function handleSubmit() {
+  function handleSubmit(e) {
     // TODO: add a new task to the database
+    e.preventDefault();
+    const newTask = {
+      username: username,
+      taskId: uuidv4(),
+      title: title,
+      status: status,
+      description: description,
+      dueDate: dueDate, // time in millis
+    };
+    console.log(newTask);
+    addUserTask(newTask, function (err, data) {
+      console.log(data);
+    });
   }
 
   return (
@@ -116,7 +130,7 @@ function DashboardPage() {
             Add Task
           </Typography>
 
-          <TextField required id="title" label="Title" variant="outlined" />
+          <TextField required id="title" label="Title" variant="outlined" onChange={(e) => setTitle(e.target.value)}/>
           
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
@@ -130,6 +144,7 @@ function DashboardPage() {
             label="Description"
             type="description"
             variant="outlined"
+            onChange={(e) => setDescription(e.target.value)}
             multiline
           />
           <TextField
@@ -139,6 +154,7 @@ function DashboardPage() {
             defaultValue="Not Started"
             helperText="Please select your status"
             variant="outlined"
+            onChange={(e) => setStatus(e.target.value)}
           >
             {allStatus.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -158,7 +174,7 @@ function DashboardPage() {
               variant="contained"
               color="primary"
               type="submit"
-              onClick={handleSubmit}
+              onClick={(e) => handleSubmit(e)}
             >
               Submit
             </Button>
