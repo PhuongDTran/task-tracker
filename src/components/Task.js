@@ -1,9 +1,10 @@
 import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { deleteUserTask } from "../dynamodbClient";
 import { useState } from "react";
-
+import TaskModal from './TaskModal';
 function Task(props) {
     const [isDeleted, setIsDeleted] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const handleClick = (username, taskId) => {
         deleteUserTask(username, taskId, function (err, data) {
@@ -15,10 +16,15 @@ function Task(props) {
         });
         setIsDeleted(true);
     }
+    
+    const handleClose = () => {
+        setModalOpen(false);
+        console.log(modalOpen);
+      };
 
     return (
         <>
-            {!isDeleted && <Card sx={{ maxWidth: 345 }}>
+            {!isDeleted && <Card sx={{ maxWidth: 345 }} onClick={() => setModalOpen(true)}>
                 <CardActionArea>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
@@ -40,6 +46,13 @@ function Task(props) {
                     </CardContent>
                     <button onClick={() => handleClick(props.username, props.id)}>delete</button>
                 </CardActionArea>
+                {modalOpen && <TaskModal
+                title={props.title}
+                description={props.description}
+                status={props.status}
+                due_date={props.due_date} 
+                open={modalOpen} 
+                handleClose={handleClose}/>}
             </Card>}
         </>
     )
