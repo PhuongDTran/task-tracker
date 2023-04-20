@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { getAllUserTasks, addUserTask } from "../dynamodbClient";
 import { v4 as uuidv4 } from "uuid";
 import "./DashboardPage.css";
-import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
+import { Typography } from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -17,6 +17,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
+import Task from "../components/Task";
 
 function DashboardPage() {
   const [username, setUsername] = useState(localStorage.getItem("user") || "");
@@ -38,28 +39,16 @@ function DashboardPage() {
 
   const taskElements = tasks.map((task) => {
     return (
-      <Card sx={{ maxWidth: 345 }}>
-        <CardActionArea>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Title:
-              {task.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Description:
-              {task.description ? task.description : "No description"}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Status:
-              {task.status ? task.status : "No status"}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Duedate:
-              {task.due_date ? task.due_date : "No due date"}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <Task
+        username={username}
+        title={task.title}
+        description={task.description}
+        status={task.status}
+        due_date={task.due_date}
+        key={task.taskId}
+        id={task.taskId}
+      >
+      </Task>
     );
   });
 
