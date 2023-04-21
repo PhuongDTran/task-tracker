@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { checkUserExists } from "../dynamodbClient";
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
-import { getAllUserTasks } from "../dynamodbClient";
 
 function LoginPage() {
 
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -16,8 +13,13 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      localStorage.setItem("user", username);
-      navigate("/dashboard");
+      const normalizedUserName = username.trim();
+      if (normalizedUserName) {
+        localStorage.setItem("user", normalizedUserName);
+        navigate("/dashboard");
+      } else {
+        alert("Invalid name");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -26,13 +28,13 @@ function LoginPage() {
   return (
     <div>
       <div id="loginForm">
-      <h1>Login to Task Tracker</h1>
+        <h1>Login to Task Tracker</h1>
         <div className="centerFeild">
-            <label className="LoginLabel">
-              Username:
-            </label>
-            <input type="text" id="inputField" value={username} onChange={handleUsernameChange} />
-            <button onClick={handleLogin}>Login</button>
+          <label className="LoginLabel">
+            Your name:
+          </label>
+          <input type="text" id="inputField" value={username} onChange={handleUsernameChange} />
+          <button onClick={handleLogin}>Login</button>
         </div>
       </div>
     </div>

@@ -23,7 +23,7 @@ export const addUserTask = (task, callback) => {
 }
 
 export const updateUserTask = (task, callback) => {
-  const { username, taskId, title, description, status, dueDate } = task;
+  const { username, taskId, title, description, taskStatus, dueDate } = task;
 
   const params = {
     TableName: USER_TASKS_TABLE_NAME,
@@ -31,11 +31,11 @@ export const updateUserTask = (task, callback) => {
       username: username,
       taskId: taskId
     },
-    UpdateExpression: 'set title = :title, description = :description, task_status = :status, due_date = :date',
+    UpdateExpression: 'set title = :title, description = :description, taskStatus = :status, dueDate = :date',
     ExpressionAttributeValues: {
       ":title": title,
       ":description": description,
-      ":status": status,
+      ":status": taskStatus,
       ":date": dueDate
     }
   }

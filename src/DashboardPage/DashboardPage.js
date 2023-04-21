@@ -1,20 +1,59 @@
 import { useState, useEffect } from "react";
-import { getAllUserTasks, addUserTask } from "../dynamodbClient";
+import { getAllUserTasks } from "../dynamodbClient";
 import "./DashboardPage.css";
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import Task from "../components/Task";
-import TaskModal from '../components/TaskModal';
+import TaskEditor from '../components/TaskEditor';
+
+import { useNavigate } from "react-router-dom";
+
+
 function DashboardPage() {
-  const [username, setUsername] = useState(localStorage.getItem("user") || "");
+  const [username, setUsername] = useState(localStorage.getItem("user"));
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    getAllUserTasks(username, function (err, data) {
-      setTasks(data.Items);
-    });
+    if (username == null) {
+      navigate("/");
+    } else {
+      getAllUserTasks(username, function (err, data) {
+        if (err) {
+          alert("encounter an error. Please reload the page")
+        } else {
+          if (data && data.Items) {
+            setTasks(data.Items);
+          }
+        }
+      });
+    }
   }, []);
+
+  const handleAddTask = (newTask) => {
+    // close task editor
+    setOpen(false);
+
+    // add new task to the tasks list
+    const updatedTasks = [...tasks];
+    updatedTasks.push(newTask);
+    setTasks(updatedTasks);
+
+  }
+
+  const handleEditTask = editTask => {
+    const updatedTasks = [...tasks];
+    const found = updatedTasks.findIndex(task => task.taskId === editTask.taskId);
+    updatedTasks[found] = editTask;
+    setTasks(updatedTasks);
+  }
+
+  const handleDeleteTask = taskId => {
+    const updatedTasks = tasks.filter(task => task.taskId !== taskId);
+    setTasks(updatedTasks);
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,10 +69,12 @@ function DashboardPage() {
         username={username}
         title={task.title}
         description={task.description}
-        status={task.status}
-        due_date={task.due_date}
+        taskStatus={task.taskStatus}
+        dueDate={task.dueDate}
         key={task.taskId}
-        id={task.taskId}
+        taskId={task.taskId}
+        onDelete={handleDeleteTask}
+        onEdit={handleEditTask}
       >
       </Task>
     );
@@ -53,7 +94,7 @@ function DashboardPage() {
           <AddIcon />
         </Fab>
       </div>
-      <TaskModal open={open} handleClose={handleClose} />
+      <TaskEditor open={open} handleClose={handleClose} actionType="add" onSubmit={handleAddTask} />
     </div>
   );
 }
