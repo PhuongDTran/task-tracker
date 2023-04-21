@@ -59,6 +59,10 @@ function TaskEditor(props) {
                     props.onSubmit(task)
                 }
             });
+            setTitle("");
+            setDescription("");
+            setDueDate(today);
+            setStatus(allStatus[0].value);
         } else {
             updateUserTask(task, function (err, data) {
                 if (err) {
