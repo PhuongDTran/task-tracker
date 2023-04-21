@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function DashboardPage() {
-  const [username, setUsername] = useState(sessionStorage.getItem("user"));
+  const [username, setUsername] = useState(localStorage.getItem("user"));
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
 

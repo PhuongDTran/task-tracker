@@ -28,7 +28,7 @@ const allStatus = [
 ];
 
 function TaskEditor(props) {
-    const [username, setUsername] = useState(sessionStorage.getItem("user") || "");
+    const [username, setUsername] = useState(localStorage.getItem("user") || "");
     const [title, setTitle] = useState(props.title || "");
     const [description, setDescription] = useState(props.description || "");
     // default to be today

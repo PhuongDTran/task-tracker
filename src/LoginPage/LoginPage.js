@@ -15,7 +15,7 @@ function LoginPage() {
     try {
       const normalizedUserName = username.trim();
       if (normalizedUserName) {
-        sessionStorage.setItem("user", normalizedUserName);
+        localStorage.setItem("user", normalizedUserName);
         navigate("/dashboard");
       } else {
         alert("Invalid name");
