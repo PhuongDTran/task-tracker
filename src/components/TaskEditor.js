@@ -59,6 +59,10 @@ function TaskEditor(props) {
                     props.onSubmit(task)
                 }
             });
+            setTitle("");
+            setDescription("");
+            setDueDate(today);
+            setStatus(allStatus[0].value);
         } else {
             updateUserTask(task, function (err, data) {
                 if (err) {
@@ -95,7 +99,7 @@ function TaskEditor(props) {
                     {SimpleTitle()}
                 </Typography>
 
-                <TextField required id="title" label="Title" variant="outlined" value={title} onChange={(e) => setTitle(e.target.value.trim())} />
+                <TextField required id="title" label="Title" variant="outlined" value={title} onChange={(e) => setTitle(e.target.value)} onBlur={(e) => setTitle(e.target.value.trim())} />
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -112,6 +116,7 @@ function TaskEditor(props) {
                     variant="outlined"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    onBlur={(e) => setDescription(e.target.value.trim())}
                     multiline
                 />
                 <TextField
