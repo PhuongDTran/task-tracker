@@ -53,7 +53,7 @@ function DashboardPage() {
         checkedBox.checked = true;
       }
 
-      if(!document.getElementById('user')){
+      if(!localStorage.getItem('user')){
         window.location.href = "/";
       }
     }, 50)
