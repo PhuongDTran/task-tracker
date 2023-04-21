@@ -21,6 +21,7 @@ function DashboardPage() {
   useEffect(() => {
     if (username == null) {
       navigate("/");
+      return
     } else {
       getAllUserTasks(username, function (err, data) {
         if (err) {
@@ -44,10 +45,10 @@ function DashboardPage() {
     let item = localStorage.getItem("Picked")
 
     setTimeout(() => {
-      if (item) {
+      if (item && username !== null) {
         checkedBox = document.getElementById(item);
         checkedBox.checked = true;
-      } else {
+      } else if(username !== null){
         localStorage.setItem("Picked","title");
         checkedBox = document.getElementById("title");
         checkedBox.checked = true;
