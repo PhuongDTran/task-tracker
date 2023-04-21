@@ -70,6 +70,15 @@ function TaskEditor(props) {
         }
     }
 
+    function SimpleTitle(){
+        if(props.title){
+            return "Edit " + props.title
+        } else {
+            return "Add Task"
+        }
+    }
+
+
     return (
         <Dialog open={props.open} onClose={props.handleClose}>
             <Box
@@ -80,9 +89,10 @@ function TaskEditor(props) {
                 }}
                 noValidate
                 autoComplete="off"
+                className="TaskAddBox"
             >
                 <Typography variant="h6" gutterBottom>
-                    Add Task
+                    {SimpleTitle()}
                 </Typography>
 
                 <TextField required id="title" label="Title" variant="outlined" value={title} onChange={(e) => setTitle(e.target.value.trim())} />
