@@ -16,6 +16,8 @@ function DashboardPage() {
 
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     if (username == null) {
       navigate("/");
@@ -31,6 +33,27 @@ function DashboardPage() {
       });
     }
   }, []);
+
+  function handleSortSelecter(Picked) {
+    localStorage.setItem("Picked", Picked);
+    document.location.reload();
+  }
+
+  function StartingAssignment() {
+    let checkedBox
+    let item = localStorage.getItem("Picked")
+
+    setTimeout(() => {
+      if (item) {
+        checkedBox = document.getElementById(item);
+        checkedBox.checked = true;
+      } else {
+        localStorage.setItem("Picked","title");
+        checkedBox = document.getElementById("title");
+        checkedBox.checked = true;
+      }
+    }, 50)
+  }
 
   const handleAddTask = (newTask) => {
     // close task editor
@@ -63,7 +86,27 @@ function DashboardPage() {
     setOpen(false);
   };
 
-  const taskElements = tasks.map((task) => {
+  function SortCards(CardOrder) {
+    return function (a, b) {
+
+      if (!a) {
+        return 1;
+      }
+      if (!b) {
+        return -1;
+      }
+
+      if ((a[CardOrder] + "0").toString().toLowerCase() > (b[CardOrder] + "0").toString().toLowerCase()) {
+        return 1;
+      } else if ((a[CardOrder] + "0").toString().toLowerCase() < (b[CardOrder] + "0").toString().toLowerCase()) {
+        return -1;
+      } else {
+        return 0
+      }
+    }
+  }
+
+  const taskElements = tasks.sort(SortCards(localStorage.getItem("Picked")) || "Title").map((task) => {
     return (
       <Task
         username={username}
@@ -75,6 +118,7 @@ function DashboardPage() {
         taskId={task.taskId}
         onDelete={handleDeleteTask}
         onEdit={handleEditTask}
+        className="CardClass"
       >
       </Task>
     );
@@ -83,7 +127,25 @@ function DashboardPage() {
 
   return (
     <div>
-      <h1>Dashboard</h1>
+      <div class="topnav">
+        <a class="active" href="#index">Task Tracker</a>
+        <a class="inactive" href="/" onClick={(()=>{
+          localStorage.clear();
+        })}>Sign Out</a>
+        <div class="topnav-right">  
+          <a class="name">{"Username: " + localStorage.getItem('user') || "How did you get here?"}</a>
+        </div>
+      </div>
+      <h1 class="Dashboard">Dashboard</h1>
+      <div className="radios">
+        <input type="radio" id="title" name="fav_language" value="Title" onClick={() => handleSortSelecter("title")}></input>
+        <label for="html">Title</label>
+        <input type="radio" id="taskStatus" name="fav_language" value="Status" onClick={() => handleSortSelecter("taskStatus")}></input>
+        <label for="css">Status</label>
+        <input type="radio" id="dueDate" name="fav_language" value="Duedate" onClick={() => handleSortSelecter("dueDate")}></input>
+        <label for="javascript">Duedate</label>
+        {StartingAssignment()}
+      </div>
       {tasks.length === 0 ? (
         <p>You have not set up any tasks yet.</p>
       ) : (

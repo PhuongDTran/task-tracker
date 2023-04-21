@@ -1,4 +1,3 @@
-
 .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(18rem, 20rem));
@@ -17,4 +16,57 @@
     border: none;
     outline: none;
     cursor: pointer;
+}
+
+.topnav {
+    background-color: #c38d9e;
+    overflow: hidden;
+}
+
+.topnav a {
+    float: left;
+    color: #fcfafb;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #865f6b
+}
+
+.topnav-right {
+    float: right;
+  }
+
+.Dashboard h1{
+    font-size: 50px;
+}
+
+input[type="radio"] {
+    opacity: 100;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    left: 0;
+    z-index: 7;
+    margin-bottom: 30px;
+}
+
+.radios label{
+    margin: 20px;
+    font-size: xx-large;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.TaskAddBox{
+    padding-left: 10%;
+    padding-right: 10%;
 }
