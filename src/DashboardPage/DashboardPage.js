@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function DashboardPage() {
-  const [username, setUsername] = useState(localStorage.getItem("user"));
+  const [username, setUsername] = useState(localStorage.getItem("user") || "Null User");
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -51,6 +51,10 @@ function DashboardPage() {
         localStorage.setItem("Picked","title");
         checkedBox = document.getElementById("title");
         checkedBox.checked = true;
+      }
+
+      if(!document.getElementById('user')){
+        window.location.href = "/";
       }
     }, 50)
   }
